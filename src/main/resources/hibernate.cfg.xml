@@ -12,6 +12,11 @@
 		<property name="hibernate.connection.password">hib_pass</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
+		<!-- Налаштування кешування -->
+		<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+
 		<!-- Вивід SQL запитів в консоль -->
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
@@ -21,5 +26,6 @@
 
 		<!-- Маппінг класів-->
 		<mapping class="hibernate.cachetest.Institute"/>
+		<mapping class="hibernate.cachetest.Student"/>
 	</session-factory>
 </hibernate-configuration>

@@ -5,7 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HibernateTestCache {
     private static long time;
@@ -18,7 +20,8 @@ public class HibernateTestCache {
     public void clearAll() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.createSQLQuery("DELETE FROM institute").executeUpdate();
+        session.createSQLQuery("DELETE FROM STUDENT").executeUpdate();
+        session.createSQLQuery("DELETE FROM INSTITUTE").executeUpdate();
         transaction.commit();
         session.close();
     }
@@ -31,6 +34,13 @@ public class HibernateTestCache {
         session.close();
     }
 
+    public Institute getInstituteById(int id) {
+        Session session = sessionFactory.openSession();
+        Institute result = (Institute) session.get(Institute.class, id);
+        session.close();
+        return result;
+    }
+
     public void addInstitutes(int amount) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -41,9 +51,21 @@ public class HibernateTestCache {
         session.close();
     }
 
+    public void addStudents(Institute institute, int amount) {
+        Set<Student> students = new HashSet<Student>();
+
+        for(int i = 0; i < amount; i++) {
+            Student student = new Student("Name " + i, "Last name " + i);
+            student.setInstitute(institute);
+            students.add(student);
+        }
+
+        institute.setStudents(students);
+    }
+
     public List<Integer> getInstitutesIds() {
         Session session = sessionFactory.openSession();
-        List<Integer> result = session.createSQLQuery("select id from institute").list();
+        List<Integer> result = session.createQuery("select id from Institute").setCacheable(true).list();
         session.close();
         return result;
     }
@@ -52,7 +74,7 @@ public class HibernateTestCache {
         return getInstitutesIds().get(0);
     }
 
-    public void levelOneCacheWithDifferentSessions() {
+    public void readFirstInsituteInDifferentSessions() {
         int id = getFirstInstitutedId();
 
         Session session = sessionFactory.openSession();
@@ -64,7 +86,7 @@ public class HibernateTestCache {
         session.close();
     }
 
-    public void levelOneCacheInTheSameSession() {
+    public void readFirstInstituteInTheSameSession() {
         int id = getFirstInstitutedId();
 
         Session session = sessionFactory.openSession();
@@ -77,13 +99,15 @@ public class HibernateTestCache {
         time = System.currentTimeMillis();
     }
 
-    private static void endTimer() {
+    private static void stopTimer() {
         long end = System.currentTimeMillis();
         System.out.println("EXECUTE TIME: " + (end - time));
     }
 
     public static void main( String[] args ) {
-        demonstrateLevelOneCacheWork();
+       // demonstrateLevelOneCacheWork();
+       // demonstrateLevelTwoCacheWork();
+        demonstrateLevelTwoDependenciesCacheWork();
     }
 
     private static void demonstrateLevelOneCacheWork() {
@@ -94,13 +118,44 @@ public class HibernateTestCache {
 
         System.out.println();
         System.out.println("Begin level one cache DIFFERENT sessions");
-        app.levelOneCacheWithDifferentSessions();
+        app.readFirstInsituteInDifferentSessions();
         System.out.println("End level one cache DIFFERENT sessions");
 
         System.out.println();
 
         System.out.println("Begin level one cache THE SAME session");
-        app.levelOneCacheInTheSameSession();
+        app.readFirstInstituteInTheSameSession();
         System.out.println("End level one cache THE SAME session");
+    }
+
+    private static void demonstrateLevelTwoCacheWork() {
+        HibernateTestCache app = new HibernateTestCache();
+
+        app.clearAll();
+        app.addInstitutes(1);
+
+        System.out.println();
+        System.out.println("Begin level two cache DIFFERENT sessions");
+        app.readFirstInsituteInDifferentSessions();
+        System.out.println("End level two cache DIFFERENT sessions");
+    }
+
+    private static void demonstrateLevelTwoDependenciesCacheWork() {
+        HibernateTestCache app = new HibernateTestCache();
+
+        app.clearAll();
+
+        Institute institute = new Institute("Test institute");
+        app.addStudents(institute, 1);
+        app.addInstitute(institute);
+
+        System.out.println();
+        System.out.println("Begin level two cache DIFFERENT sessions");
+        startTimer();
+        for(int i = 0; i < 5000; i++) {
+            app.readFirstInsituteInDifferentSessions();
+        }
+        stopTimer();
+        System.out.println("End level two cache DIFFERENT sessions");
     }
 }
