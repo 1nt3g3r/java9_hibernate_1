@@ -19,10 +19,6 @@ public class Student {
     @Column(name = "LAST_NAME", length = 255)
     private String lastName;
 
-    @ManyToOne
-    @JoinColumn(name = "INSTITUTE_ID")
-    private Institute institute;
-
     public Student() {
     }
 
@@ -55,14 +51,6 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Institute getInstitute() {
-        return institute;
-    }
-
-    public void setInstitute(Institute institute) {
-        this.institute = institute;
-    }
-
     @Override
     public String toString() {
         return "Student{" +
@@ -82,7 +70,8 @@ public class Student {
         if (id != student.id) return false;
         if (firstName != null ? !firstName.equals(student.firstName) : student.firstName != null) return false;
         if (lastName != null ? !lastName.equals(student.lastName) : student.lastName != null) return false;
-        return institute != null ? institute.equals(student.institute) : student.institute == null;
+
+        return true;
     }
 
     @Override
@@ -90,7 +79,6 @@ public class Student {
         int result = id;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (institute != null ? institute.hashCode() : 0);
         return result;
     }
 }

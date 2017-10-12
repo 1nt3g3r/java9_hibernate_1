@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 public class HibernateTestCache {
+    public static final int BATCH_SIZE = 50;
+
     private static long time;
     private SessionFactory sessionFactory;
 
@@ -56,7 +58,6 @@ public class HibernateTestCache {
 
         for(int i = 0; i < amount; i++) {
             Student student = new Student("Name " + i, "Last name " + i);
-            student.setInstitute(institute);
             students.add(student);
         }
 
@@ -105,9 +106,10 @@ public class HibernateTestCache {
     }
 
     public static void main( String[] args ) {
-       // demonstrateLevelOneCacheWork();
-       // demonstrateLevelTwoCacheWork();
-        demonstrateLevelTwoDependenciesCacheWork();
+        //demonstrateLevelOneCacheWork();
+        //demonstrateLevelTwoCacheWork();
+        //demonstrateLevelTwoDependenciesCacheWork();
+        demonstrateBatching();
     }
 
     private static void demonstrateLevelOneCacheWork() {
@@ -152,10 +154,43 @@ public class HibernateTestCache {
         System.out.println();
         System.out.println("Begin level two cache DIFFERENT sessions");
         startTimer();
-        for(int i = 0; i < 5000; i++) {
+        for(int i = 0; i < 50000; i++) {
             app.readFirstInsituteInDifferentSessions();
         }
         stopTimer();
         System.out.println("End level two cache DIFFERENT sessions");
+    }
+
+    private static void demonstrateBatching() {
+        HibernateTestCache app = new HibernateTestCache();
+        app.clearAll();
+
+
+
+        Session session = app.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        startTimer();
+
+        for(int i = 0; i < 10000; i++) {
+
+            Institute institute = new Institute("Institute " + i);
+            app.addStudents(institute, 1);
+            session.save(institute);
+
+            if (i%BATCH_SIZE == 0) {
+                session.flush();
+                session.clear();
+            }
+
+            if (i%1000 == 0) {
+                System.out.println(i);
+            }
+        }
+
+        transaction.commit();
+        session.close();
+
+        stopTimer();
     }
 }
