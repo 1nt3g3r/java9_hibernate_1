@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="hibernate.cachetest.Cat"
+           table="Cat">
+
+        <meta attribute="class-description">
+            We keep our cats here
+        </meta>
+
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+
+        <property name="name" column="NAME" type="string"/>
+        <property name="birthday" column="BIRTHDAY" type="date"/>
+        <property name="weight" column="WEIGHT" type="float"/>
+    </class>
+</hibernate-mapping>
