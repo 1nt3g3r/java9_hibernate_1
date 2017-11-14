@@ -6,10 +6,10 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.characterEncoding">UTF-8</property>
-	 	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/hib_test</property>
-		<property name="hibernate.connection.username">hib_user</property>
-		<property name="hibernate.connection.password">hib_pass</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">integer231992</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
 		<!-- Вивід SQL запитів в консоль -->
@@ -17,12 +17,14 @@
 		<property name="format_sql">true</property>
 
 		<!-- Автоматичне створення і оновлення структури БД -->
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 
 		<!-- Маппінг класів-->
 		<!--mapping class="hibernate.cachetest.Institute"/-->
 
 		<mapping class="hibernate.cachetest.Cat"/>
-
+		<mapping class="hibernate.cachetest.CatDetails"/>
+		<mapping class="hibernate.cachetest.Human"/>
+		<mapping class="hibernate.cachetest.Skill"/>
 	</session-factory>
 </hibernate-configuration>

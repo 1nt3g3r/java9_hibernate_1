@@ -4,20 +4,20 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="hibernate.cachetest.Cat"
+    <class firstName="hibernate.cachetest.Cat"
            table="Cat">
 
         <meta attribute="class-description">
             We keep our cats here
         </meta>
 
-        <id name="id" type="long">
-            <column name="ID" />
+        <id firstName="id" type="long">
+            <column firstName="ID" />
             <generator class="assigned" />
         </id>
 
-        <property name="name" column="NAME" type="string"/>
-        <property name="birthday" column="BIRTHDAY" type="date"/>
-        <property name="weight" column="WEIGHT" type="float"/>
+        <property firstName="getFirstName" column="NAME" type="string"/>
+        <property firstName="birthday" column="BIRTHDAY" type="date"/>
+        <property firstName="weight" column="WEIGHT" type="float"/>
     </class>
 </hibernate-mapping>

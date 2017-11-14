@@ -12,7 +12,8 @@ public class CatStorage {
     private SessionFactory sessionFactory;
 
     public CatStorage() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+        sessionFactory =
+                new Configuration().configure().buildSessionFactory();
     }
 
     public void updateCat(Cat cat) {
@@ -67,14 +68,14 @@ public class CatStorage {
 
     public static void main(String[] args) {
         CatStorage storage = new CatStorage();
-
-        Cat cat = new Cat();
-        cat.setName("Tom");
-        cat.setBirthday(new Date());
-        cat.setWeight(5f);
-        cat = storage.createCat(cat);
-
-        cat.setName("Jerry");
-        storage.updateCat(cat);
+//
+//        Cat cat = new Cat();
+//        cat.setFirstName("Tom");
+//        cat.setBirthday(new Date());
+//        cat.setWeight(5f);
+//        cat = storage.createCat(cat);
+//
+//        cat.setFirstName("Jerry");
+//        storage.updateCat(cat);
     }
 }

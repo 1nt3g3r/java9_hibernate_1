@@ -12,14 +12,22 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "FIRST_NAME")
+    private String firstName;
 
     @Column(name = "BIRTHDAY")
     private Date birthday;
 
     @Column(name = "WEIGHT")
     private float weight;
+
+    @OneToOne
+    @JoinColumn(name = "cat_details_id", referencedColumnName = "id")
+    private CatDetails catDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "human_id", referencedColumnName = "id")
+    private Human owner;
 
     public long getId() {
         return id;
@@ -29,12 +37,12 @@ public class Cat {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public Date getBirthday() {
@@ -53,11 +61,27 @@ public class Cat {
         this.weight = weight;
     }
 
+    public CatDetails getCatDetails() {
+        return catDetails;
+    }
+
+    public void setCatDetails(CatDetails catDetails) {
+        this.catDetails = catDetails;
+    }
+
+    public Human getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Human owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Cat{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", birthday=" + birthday +
                 ", weight=" + weight +
                 '}';

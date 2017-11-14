@@ -4,17 +4,17 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="hibernate.cachetest.Student"
+    <class firstName="hibernate.cachetest.Student"
            table="STUDENT">
         <meta attribute="class-description">
             Student.
         </meta>
 
-        <id name="id" type="int" column="ID">
+        <id firstName="id" type="int" column="ID">
             <generator class="native" />
         </id>
 
-        <property name="firstName" column="FIRST_NAME" type="string" />
-        <property name="lastName" column="LAST_NAME" type="string" />
+        <property firstName="firstName" column="FIRST_NAME" type="string" />
+        <property firstName="lastName" column="LAST_NAME" type="string" />
     </class>
 </hibernate-mapping>

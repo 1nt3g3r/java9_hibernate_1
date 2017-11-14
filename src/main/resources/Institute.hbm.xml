@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="hibernate.cachetest.Institute"
+    <class firstName="hibernate.cachetest.Institute"
            table="INSTITUTE">
 
         <meta attribute="class-description">
@@ -13,13 +13,13 @@
 
         <cache usage="read-write"/>
 
-        <id name="id" type="int" column="ID">
+        <id firstName="id" type="int" column="ID">
             <generator class="native" />
         </id>
 
-        <property name="name" column="NAME" type="string" />
+        <property firstName="firstName" column="NAME" type="string" />
 
-        <set name="students" cascade="all" lazy="false">
+        <set firstName="students" cascade="all" lazy="false">
             <cache usage="read-write"/>
             <key column="INSTITUTE_ID"></key>
             <one-to-many class="hibernate.cachetest.Student"/>

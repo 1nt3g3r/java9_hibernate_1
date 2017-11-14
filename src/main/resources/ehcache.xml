@@ -10,7 +10,7 @@
     </defaultCache>
 
 
-    <cache name="instituteCache"
+    <cache firstName="instituteCache"
            maxEntriesLocalHeap="10000"
            maxEntriesLocalDisk="1000"
            eternal="false"
@@ -22,7 +22,7 @@
         <persistence strategy="localTempSwap"/>
     </cache>
 
-    <cache name="studentCache"
+    <cache firstName="studentCache"
            maxEntriesLocalHeap="10000"
            maxEntriesLocalDisk="1000"
            eternal="false"
