@@ -12,19 +12,16 @@
 		<property name="hibernate.connection.password">integer231992</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
+		<property name="hibernate.jdbc.batch_size">20</property>
+
 		<!-- Вивід SQL запитів в консоль -->
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 
 		<!-- Автоматичне створення і оновлення структури БД -->
-		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 
-		<!-- Маппінг класів-->
-		<!--mapping class="hibernate.cachetest.Institute"/-->
-
-		<mapping class="hibernate.cachetest.Cat"/>
-		<mapping class="hibernate.cachetest.CatDetails"/>
-		<mapping class="hibernate.cachetest.Human"/>
-		<mapping class="hibernate.cachetest.Skill"/>
+		<mapping class="entity.Developer" />
+		<mapping class="entity.Cat" />
 	</session-factory>
 </hibernate-configuration>
