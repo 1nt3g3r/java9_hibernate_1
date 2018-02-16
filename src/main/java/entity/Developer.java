@@ -8,6 +8,8 @@ import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
+
 @Entity
 @Table (name = "developer")
 public class Developer {
@@ -34,6 +36,15 @@ public class Developer {
     @OneToOne
     @JoinColumn (name = "cat_id", unique = true)
     private Cat cat;
+
+    @OneToMany(mappedBy = "developer")
+    private Set<Car> cars;
+
+    @ManyToMany
+    @JoinTable(name = "project_developer",
+            joinColumns = {@JoinColumn(name = "developer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")})
+    private Set<Project> projects;
 
     public Cat getCat() {
         return cat;
@@ -95,6 +106,22 @@ public class Developer {
         this.lastname = lastname;
     }
 
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Set<Car> cars) {
+        this.cars = cars;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
     @Override
     public String toString() {
         return "Developer{" +
@@ -105,6 +132,22 @@ public class Developer {
                 ", speciality='" + speciality + '\'' +
                 ", salary=" + salary +
                 ", cat=" + cat +
+                ", cars=" + cars +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Developer developer = (Developer) o;
+
+        return id == developer.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 }
